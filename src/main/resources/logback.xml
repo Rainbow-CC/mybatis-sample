@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- 定义日志输出的格式 -->
+    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n" />
+
+    <!-- 控制台输出 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 滚动文件输出 -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/myapp.log</file>
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 每天创建一个新的日志文件 -->
+            <fileNamePattern>logs/myapp-%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <!-- 保留最近30天的日志 -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <!-- 设置根日志级别 -->
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+        <!--<appender-ref ref="FILE" />-->
+    </root>
+
+    <logger name="com.example.mybatis.mapper" level="debug"/>
+
+    <logger name="org.mybatis" level="DEBUG" additivity="true">
+        <appender-ref ref="STDOUT" />
+    </logger>
+
+
+</configuration>
